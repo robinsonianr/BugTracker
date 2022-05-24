@@ -4,8 +4,11 @@ import './App.css';
 
 function App() {
 	return (
-		<div>
-			<p> Hello App!</p>
+		<div className='App'>
+			<header className='App-header'>
+				<img src={djangologo} className='django-logo' alt='django' />
+				<img src={reactlogo} className='App-logo' alt='react' />
+			</header>
 		</div>
 	);
 }
