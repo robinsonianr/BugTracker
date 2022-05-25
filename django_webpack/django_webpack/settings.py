@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_webpack_dev_server',
     'MySQLdb',
-    "frontend",
+    "frontend.apps.FrontendConfig",
     'issues.apps.IssuesConfig',
     'rest_framework',
 ]
