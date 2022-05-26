@@ -14,6 +14,7 @@ PRIORITIES = (('critical', 'Critical'),
 Types = (('bug', 'Bug'),
          ('feature', 'Feature'))
 
+
 def generate_unique_code():
     length = 6
 
@@ -23,21 +24,26 @@ def generate_unique_code():
             break
     return code
 
+
 class Issue(models.Model):
-    title = models.CharField(max_length=64, default=generate_unique_code, blank=False)
+    title = models.CharField(
+        max_length=64, default=generate_unique_code, blank=False)
+    host = models.CharField(
+        max_length=50, unique=True)
     description = models.TextField(blank=False)
-    priority = models.CharField(max_length=8, choices=PRIORITIES, default='low')
+    priority = models.CharField(
+        max_length=8, choices=PRIORITIES, default='low')
     issue_type = models.CharField(max_length=7, choices=Types, default='bug')
     date_added = models.DateTimeField(default=timezone.now)
     created_by = models.CharField(max_length=32, default=' ')
-
 
     def __str__(self):
         return self.title
 
 
 class Comment(models.Model):
-    issue = models.ForeignKey('issues.Issue', on_delete=models.CASCADE, related_name='comments')
+    issue = models.ForeignKey(
+        'issues.Issue', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=32)
     text = models.CharField(max_length=512)
     created_date = models.DateTimeField(default=timezone.now)

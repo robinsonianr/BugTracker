@@ -27,7 +27,19 @@ class CreateIssue(APIView):
             priority = serializer.data.get("priority")
             issue_type = serializer.data.get("issue_type")
             created_by = serializer.data.get('created_by')
-            issue = Issue(title=title, description=description,
-                          priority=priority, issue_type=issue_type, created_by=created_by)
-            issue.save()
+            host = self.request.session.session_key
+            queryset = Issue.objects.filter(host=host)
+            if queryset.exists():
+                issue = queryset[0]
+                issue.title = title
+                issue.description = description
+                issue.priority = priority
+                issue.issue_type = issue_type
+                issue.created_by = created_by
+                issue.save(update_fields=['title', 'description', 'priority',
+                                          'issue_type', 'created_by'])
+            else:
+                issue = Issue(title=title, host=host, description=description,
+                              priority=priority, issue_type=issue_type, created_by=created_by)
+                issue.save()
         return Response(IssueSerializer(issue).data, status=status.HTTP_200_OK)
