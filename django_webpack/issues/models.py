@@ -1,6 +1,8 @@
 from django.db import models
 
 from django.utils import timezone
+import string
+import random
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -12,9 +14,17 @@ PRIORITIES = (('critical', 'Critical'),
 Types = (('bug', 'Bug'),
          ('feature', 'Feature'))
 
+def generate_unique_code():
+    length = 6
+
+    while True:
+        code = ''.join(random.choices(string.ascii_uppercase, k=length))
+        if Issue.objects.filter(code=code).count() == 0:
+            break
+    return code
 
 class Issue(models.Model):
-    title = models.CharField(max_length=64, default=' ', blank=False)
+    title = models.CharField(max_length=64, default=generate_unique_code, blank=False)
     description = models.TextField(blank=False)
     priority = models.CharField(max_length=8, choices=PRIORITIES, default='low')
     issue_type = models.CharField(max_length=7, choices=Types, default='bug')
