@@ -2,9 +2,9 @@ import React from "react";
 import reactlogo from "../../assets/reactlogo.png";
 import djangologo from "../../assets/djangologo.png";
 import "../App.css";
-import CreateIssue from "./createIssues/CreateIssue";
-import Dashboard from "./dashboard/Dashboard";
-import Issues from "./issues/Issues";
+import CreateIssue from "./CreateIssue";
+import Dashboard from "./Dashboard";
+import Issues from "./Issues";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
