@@ -1,0 +1,13 @@
+.dashboard {
+    display: flex;
+}
+
+
+.dashContainer {
+    flex: 6;
+
+    .widgets{
+        display: flex;
+        padding: 20px;
+    }
+}

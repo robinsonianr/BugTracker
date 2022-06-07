@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
-import CreateIssue from "./components/CreateIssue";
-import Dashboard from "./components/Dashboard";
-import Issues from "./components/Issues";
+import CreateIssue from "./components/pages/createIssues/CreateIssue";
+import Dashboard from "./components/pages/dashboard/Dashboard";
+import Issues from "./components/pages/issues/Issues";
 import { render } from "react-dom";
 import {
   BrowserRouter as Router,
@@ -10,12 +10,11 @@ import {
   Route,
   BrowserRouter,
 } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 
 export default function App() {
   return (
     <div className="App">
-      <Sidebar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
