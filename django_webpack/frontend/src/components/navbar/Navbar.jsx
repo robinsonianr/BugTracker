@@ -29,7 +29,7 @@ export default function Navbar() {
            <div className="counter">1</div>
          </div>
          <div className="item">
-            <Button variant="contained" style={{backgroundColor:"gold"}}>Create</Button>
+            <Button variant="contained" style={{backgroundColor:"gold"}}>Create Issues</Button>
          </div>
        </div>
       </div>

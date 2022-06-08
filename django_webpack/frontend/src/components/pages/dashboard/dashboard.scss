@@ -10,4 +10,53 @@
         display: flex;
         padding: 20px;
     }
+
+    .info{
+        margin-top: 75px;
+        padding: 20px;
+        display: flex;
+        flex: 1;
+        background-color: #888;
+        border-radius: 10px;
+       
+
+        .title{
+            flex: 2;
+            font-weight: 400;
+            width: 500px;
+        }
+
+        
+
+        .supports{
+            flex: 3;
+            padding: 10px;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            
+
+            .plan{
+                color: white;
+                font-size: 20px;
+            }
+
+            ul{
+                margin: 10px;
+                li{
+                    display: flex;
+                    align-items: center;
+                    margin-top: 10px;
+
+                    .icon{
+                        color: gold
+                    }
+                    span{
+                        color: white;
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
 }
