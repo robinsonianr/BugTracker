@@ -1,7 +1,29 @@
 .createIssue{
     display: flex;
+    .createContainer {
+            flex: 6;
+
+
+            .createForm{
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                border-radius: 10px;
+                gap: 15px;
+                background-color: #888;
+
+                .title, .description, .priority, .issueType, .createdBy{
+                    display: flex;
+                    flex-direction: column;
+                    color: gold;
+                }
+                
+                .inp{
+                    width: 500px;
+                    height: 200px;
+                }
+            }
+        }
 }
 
-.createContainer{
-    flex: 6;
-}
