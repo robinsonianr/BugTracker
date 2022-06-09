@@ -1,13 +1,10 @@
 from xml.etree.ElementInclude import include
 from django.urls import path, include
-from rest_framework import routers
-from . import views
+from .views import IssueView, CreateIssue
 
-router = routers.DefaultRouter()
-router.register(r'user' ,views.IssueListCreate)
 
 urlpatterns = [
-    #path('api/issue/', views.IssueListCreate.as_view()),
-    path('', include(router.urls)),
+    path('api/issue', IssueView.as_view()),
+    path('api/create-issue', CreateIssue.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
