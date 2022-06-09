@@ -9,14 +9,22 @@ const columns = [
   {
     field: 'priority',
     headerName: 'Priority',
-    type: 'charField',
     width: 90,
+    renderCell:(params) => {
+      return(
+        <div className={`cellWithPriority ${params.row.priority}`}>{params.row.priority}</div>
+      )
+    }
   },
   {
     field: 'issue_type',
     headerName: 'Issue Type',
     width: 100,
-    // valueGetter: (params) => `${params.columns.issue_type}`
+    renderCell:(params) => {
+      return(
+        <div className={`cellWithIssue ${params.row.issue_type}`}>{params.row.issue_type}</div>
+      )
+    }
   },
   { field: 'date_added', headerName: 'Dated added', width: 220 },
   { field: 'created_by', headerName: 'Created By', width: 130 }
@@ -24,6 +32,19 @@ const columns = [
 
 
 export default function DataTable() {
+
+    const actionColumn = [{field: "action", headerName: "Action", width: 200, renderCell:()=>{
+      return(
+        <div className="cellAction">
+          <div className="editButton">
+            Edit
+          </div>
+          <div className="deleteButton">
+            Delete
+          </div>
+        </div>
+      )
+    }}]
 
     const [tableData, setTableData] = useState([])
 
@@ -36,7 +57,7 @@ export default function DataTable() {
     <div className="datatable">
          <DataGrid
         rows={tableData}
-        columns={columns}
+        columns={columns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
