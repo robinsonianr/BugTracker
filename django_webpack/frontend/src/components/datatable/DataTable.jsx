@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import "./datatable.scss"
 import { DataGrid } from '@mui/x-data-grid';
+import { Link } from "react-router-dom";
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 30 },
@@ -55,6 +56,13 @@ export default function DataTable() {
     }, [])
   return (
     <div className="datatable">
+      <div className="new">
+        <div className="left">Issues</div>
+        <Link to="/create-issue" style={{textDecoration:"none"}}>
+          <div className="right">New Issue</div>
+        </Link>
+        
+      </div>
          <DataGrid
         rows={tableData}
         columns={columns.concat(actionColumn)}

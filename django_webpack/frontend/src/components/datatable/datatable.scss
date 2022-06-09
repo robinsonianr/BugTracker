@@ -2,6 +2,26 @@
     padding: 20px;
     height: 600px;
 
+    .new{
+        flex:1;
+        display: flex;
+        padding: 10px;
+        .left{
+            flex: 1;
+            color: #888;
+           
+
+
+        }
+        .right{
+            color: rgb(6, 75, 35);
+            border: 1px solid rgb(6, 75, 35);
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+
 
     .cellWithIssue{
        padding: 5px;

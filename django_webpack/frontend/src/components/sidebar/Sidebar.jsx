@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React from "react";
 import "./sidebar.scss"
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
@@ -8,6 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Drawer from "@mui/material/Drawer";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 
 
@@ -17,25 +18,33 @@ export default function Sidebar() {
     <div className="sidebar">
       <div className="header">
         <BugReportIcon className="icon"/>
+        <Link to="/" style={{textDecoration: "none"}}>
         <span className="logo">Bug Tracker</span>
+        </Link>
       </div>
       <hr/>
       <div className="content">
         <ul>
           <li>
             <DashboardIcon className="icon"/>
-            <a href="/">Dashboard</a>
-            {/* <span>Dashboard</span> */}
+            <Link to="/" style={{textDecoration: "none"}}>
+              <span>Dashboard</span>
+            </Link>
+            
           </li>
           <li>
             <TaskAltIcon className="icon"/>
-            <a href="/issues">Issues</a>
-            {/* <span >Issues</span> */}
+            <Link to="/issues" style={{textDecoration: "none"}}>
+              <span >Issues</span>
+            </Link>
+            
           </li>
           <li>
             <AddTaskIcon className="icon"/>
-            <a href="/create-issue">Create Issues</a>
-            {/* <span >Create Issues</span> */}
+            <Link to="/create-issue" style={{textDecoration: "none"}}>
+              <span >Create Issues</span>
+            </Link>
+            
           </li>
         </ul>
       </div>  
