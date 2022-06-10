@@ -6,4 +6,5 @@ urlpatterns = [
     path('', index),
     path('create-issue', index),
     path('issues', index),
+    path('login', index)
 ]

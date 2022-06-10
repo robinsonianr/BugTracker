@@ -1,25 +1,55 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import CreateIssue from "./components/pages/createIssues/CreateIssue";
 import Dashboard from "./components/pages/dashboard/Dashboard";
 import Issues from "./components/pages/issues/Issues";
-import { render } from "react-dom";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   BrowserRouter,
+  Navigate,
 } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
+import Login from "./components/pages/login/Login";
+import { AuthContext } from "./components/context/AuthContext";
 
 export default function App() {
+  const { currentUser } = useContext(AuthContext);
+
+  const RequireAuth = ({ children }) => {
+    return currentUser ? children : <Navigate to="/login" />;
+  };
+  console.log(currentUser);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/create-issue" element={<CreateIssue />} />
-          <Route path="/issues" element={<Issues />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/create-issue"
+            element={
+              <RequireAuth>
+                <CreateIssue />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/issues"
+            element={
+              <RequireAuth>
+                <Issues />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
@@ -33,6 +63,3 @@ export default function App() {
 // 						<img src={reactlogo} className='App-logo' alt='react' />
 // 					</header> */}
 // 			</div>
-
-const appDiv = document.getElementById("app");
-render(<App />, appDiv);
