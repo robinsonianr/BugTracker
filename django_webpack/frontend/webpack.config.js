@@ -4,12 +4,18 @@ const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: ["./src/index.js"],
-  plugins: [new Dotenv()],
   output: {
     path: path.resolve(__dirname, "./static/frontend"),
     filename: "[name].js",
     publicPath: "/static/frontend/",
   },
+  plugins: [
+    new Dotenv({
+      ignoreStub: true,
+      path: "./.env",
+    }),
+  ],
+
   resolve: {
     alias: {
       "react-dom": "react-dom/profiling",

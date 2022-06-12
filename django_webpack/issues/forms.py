@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
-from .models import Issue, Comment
+from issues.models import Issue, Comment
 
 
 class IssueForm(ModelForm):
@@ -11,11 +11,3 @@ class IssueForm(ModelForm):
         labels = {
             'issue_type': _('Issue Type'),
         }
-
-
-class CommentForm(ModelForm):
-    text = forms.CharField(widget=forms.Textarea, label='')
-
-    class Meta:
-        model = Comment
-        fields = ['text']

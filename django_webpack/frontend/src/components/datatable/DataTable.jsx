@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { async } from "@firebase/util";
+import axiosInstance from "../../axios";
 
 const columns = [
   { field: "id", headerName: "ID", width: 30 },
@@ -40,6 +40,8 @@ const columns = [
 
 export default function DataTable() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  // const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,13 +53,27 @@ export default function DataTable() {
           list.push({ id: doc.id, ...doc.data() });
         });
         setData(list);
-        console.log(list);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
   }, []);
+
+  const handleDel = (id) => {
+    axiosInstance
+      .delete("delete/" + id + "/")
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      })
+      .then(function () {
+        window.location.reload();
+      });
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -76,10 +92,16 @@ export default function DataTable() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <div className="editButton">Edit</div>
+            <Link
+              to={`/edit/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="editButton">Edit</div>
+            </Link>
+
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDel(params.row.id)}
             >
               Delete
             </div>
@@ -92,7 +114,7 @@ export default function DataTable() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/issues/api/issue")
+    fetch("http://localhost:8080/api/")
       .then((data) => data.json())
       .then((data) => setTableData(data));
   }, []);
@@ -100,12 +122,12 @@ export default function DataTable() {
     <div className="datatable">
       <div className="new">
         <div className="left">Issues</div>
-        <Link to="/create-issue" style={{ textDecoration: "none" }}>
+        <Link to="/create" style={{ textDecoration: "none" }}>
           <div className="right">New Issue</div>
         </Link>
       </div>
       <DataGrid
-        rows={data}
+        rows={tableData}
         columns={columns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}

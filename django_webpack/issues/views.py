@@ -1,45 +1,50 @@
 from .models import Issue
-from .serializers import IssueSerializer
+from issues.serializers import IssueSerializer
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import CreateIssueSerializer
+from issues.serializers import CreateIssueSerializer
+from rest_framework import permissions
 
 # Create your views here.
 
 
+class IssueUserWritePermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # Write permissions are only allowed to the owner of the snippet.
+        return obj.created_by == request.user
+
+
 class IssueView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
 
 
-class CreateIssue(APIView):
+class IssueDetail(generics.RetrieveUpdateDestroyAPIView, IssueUserWritePermission):
+    permission_classes = [IssueUserWritePermission]
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+
+
+class CreateIssue(generics.CreateAPIView, IssueUserWritePermission):
+    permission_classes = [IssueUserWritePermission]
     serializer_class = CreateIssueSerializer
+    queryset = Issue.objects.all()
 
-    def post(self, request, format=None):
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
 
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            title = serializer.data.get("title")
-            description = serializer.data.get("description")
-            priority = serializer.data.get("priority")
-            issue_type = serializer.data.get("issue_type")
-            created_by = serializer.data.get('created_by')
-            host = self.request.session.session_key
-            queryset = Issue.objects.filter(host=host)
-            if queryset.exists():
-                issue = queryset[0]
-                issue.title = title
-                issue.description = description
-                issue.priority = priority
-                issue.issue_type = issue_type
-                issue.created_by = created_by
-                issue.save(update_fields=['title', 'description', 'priority',
-                                          'issue_type', 'created_by'])
-            else:
-                issue = Issue(title=title, host=host, description=description,
-                              priority=priority, issue_type=issue_type, created_by=created_by)
-                issue.save()
-        return Response(IssueSerializer(issue).data, status=status.HTTP_200_OK)
+class EditIssue(generics.UpdateAPIView, IssueUserWritePermission):
+    permission_classes = [IssueUserWritePermission]
+    serializer_class = IssueSerializer
+    queryset = Issue.objects.all()
+
+
+class DeleteIssue(generics.RetrieveDestroyAPIView, IssueUserWritePermission):
+    permission_classes = [IssueUserWritePermission]
+    serializer_class = IssueSerializer
+    queryset = Issue.objects.all()

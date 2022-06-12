@@ -2,8 +2,10 @@ import { useContext, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
 import "./login.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import axiosInstance from "../../../axios";
+import { Typography } from "@mui/material";
 
 export default function Login() {
   const [error, setError] = useState(false);
@@ -12,6 +14,46 @@ export default function Login() {
   const navigate = useNavigate();
 
   const { dispatch } = useContext(AuthContext);
+  const initialFormData = Object.freeze({
+    email: "",
+    password: "",
+  });
+
+  const [formData, updateFormData] = useState(initialFormData);
+  const history = useNavigate();
+
+  const handleChange = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+
+    updateFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+
+    axiosInstance
+      .post("token/", {
+        email: formData.email,
+        password: formData.password,
+      })
+      .then((res) => {
+        localStorage.setItem("access_token", res.data.access);
+        localStorage.setItem("refresh_token", res.data.refresh);
+        axiosInstance.defaults.headers["Authoriztation"] =
+          "JWT " + localStorage.getItem("access_token");
+        const user = localStorage.getItem("access_token");
+        dispatch({ type: "LOGIN", payload: user });
+        history("/", { replace: true });
+      })
+      .catch((error) => {
+        setError(true);
+      });
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -30,19 +72,29 @@ export default function Login() {
 
   return (
     <div className="login">
-      <form onSubmit={handleLogin}>
+      <Typography className="header" variant="h1" style={{ color: "gold" }}>
+        Login
+      </Typography>
+      <form onSubmit={handleSubmit}>
         <input
+          id="email"
           type="email"
           placeholder="email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleChange}
         />
         <input
+          id="password"
           type="password"
           placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
+          onChange={handleChange}
         />
-        <button>Login</button>
-        {error && <span>Incorrect email or password!</span>}
+        <button type="submit">Login</button>
+        <Link to="/register" style={{ textDecoration: "none", marginTop: 10 }}>
+          <span className="reg">Need an account? Register here</span>
+        </Link>
+
+        {error && <span className="err">Incorrect email or password!</span>}
       </form>
     </div>
   );

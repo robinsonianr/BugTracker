@@ -1,27 +1,53 @@
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import "./newIssue.scss";
-import {
-  doc,
-  collection,
-  addDoc,
-  setDoc,
-  serverTimestamp,
-  Timestamp,
-} from "firebase/firestore";
-import { async } from "@firebase/util";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../axios";
 
 export default function NewIssue() {
+  const initialFormData = Object.freeze({
+    title: "",
+    description: "",
+    priority: "",
+    issue_type: "",
+  });
+  const [formData, setFormData] = useState({ initialFormData });
+
   const [data, setData] = useState({});
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+
+    setFormData({ ...formData, [id]: value });
+  };
 
   const handleInput = (e) => {
     const id = e.target.id;
     const value = e.target.value;
 
     setData({ ...data, [id]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    axiosInstance
+      .post("create/", {
+        title: formData.title,
+        description: formData.description,
+        priority: formData.priority,
+        issue_type: formData.issue_type,
+        created_by: 1,
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        navigate(-1);
+      });
   };
 
   const handleAdd = async (e) => {
@@ -45,15 +71,18 @@ export default function NewIssue() {
       </div>
 
       <div className="createForm">
-        <form onSubmit={handleAdd}>
+        <form onSubmit={handleSubmit}>
+          {/*onSubmit={handleAdd}*/}
           <div className="formInput">
             <label>Title</label>
             <input
+              name="title"
               id="title"
               type="text"
               placeholder="Title..."
               className="inp"
-              onChange={handleInput}
+              // onChange={handleInput}
+              onChange={handleChange}
             />
           </div>
           <div className="formInput">
@@ -63,7 +92,8 @@ export default function NewIssue() {
               type="text"
               className="inpDesc"
               placeholder="Description..."
-              onChange={handleInput}
+              //onChange={handleInput}
+              onChange={handleChange}
             />
           </div>
           <div className="formInput">
@@ -72,7 +102,8 @@ export default function NewIssue() {
               name="priorities"
               id="priority"
               className="inp"
-              onChange={handleInput}
+              //onChange={handleInput}
+              onChange={handleChange}
             >
               <optgroup>
                 <option value="default"> </option>
@@ -89,7 +120,8 @@ export default function NewIssue() {
               name="issueTypes"
               id="issue_type"
               className="inp"
-              onChange={handleInput}
+              //onChange={handleInput}
+              onChange={handleChange}
             >
               <optgroup>
                 <option value="defualt"> </option>
@@ -98,15 +130,16 @@ export default function NewIssue() {
               </optgroup>
             </select>
           </div>
-          <div className="formInput">
+          {/* <div className="formInput">
             <label>Created By</label>
             <input
               id="created_by"
               type="text"
               className="inp"
-              onChange={handleInput}
+              //onChange={handleInput}
+              onChange={handleChange}
             />
-          </div>
+          </div> */}
           <button type="submit" className="btn">
             Submit
           </button>

@@ -1,37 +1,40 @@
 import * as React from "react";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import { Button } from "@mui/material";
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import LanguageIcon from '@mui/icons-material/Language';
-import "./navbar.scss"
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import LanguageIcon from "@mui/icons-material/Language";
+import "./navbar.scss";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  
-
   return (
     <div className="navbar">
       <div className="wrapper">
-       <div className="search">
-         <input type="text" placeholder="Search..." />
-         <SearchIcon/>
-       </div>
-       <div className="items">
-         <div className="item">
-           <LanguageIcon/>
-           English
-         </div>
-         <div className="item">
-           <DashboardOutlinedIcon/>
-         </div>
-         <div className="item">
-           <NotificationsNoneIcon/>
-           <div className="counter">1</div>
-         </div>
-         <div className="item">
-            <Button variant="contained" style={{backgroundColor:"gold", color: "gray"}}>Create Issues</Button>
-         </div>
-       </div>
+        <div className="search">
+          <input type="text" placeholder="Search..." />
+          <SearchIcon />
+        </div>
+        <div className="items">
+          <div className="item">
+            <LanguageIcon />
+            English
+          </div>
+          <div className="item">
+            <DashboardOutlinedIcon />
+          </div>
+          <div className="item">
+            <NotificationsNoneIcon />
+            <div className="counter">1</div>
+          </div>
+          <div className="item">
+            <Link to="/create" style={{ textDecoration: "none" }}>
+              <Button variant="contained" style={{ backgroundColor: "gold" }}>
+                Create Issues
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

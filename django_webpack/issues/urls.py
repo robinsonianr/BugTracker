@@ -1,10 +1,13 @@
 from xml.etree.ElementInclude import include
 from django.urls import path, include
-from .views import IssueView, CreateIssue
+from issues.views import IssueView, CreateIssue, DeleteIssue, EditIssue, IssueDetail
 
 
 urlpatterns = [
-    path('api/issue', IssueView.as_view()),
-    path('api/create-issue', CreateIssue.as_view()),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('', IssueView.as_view()),
+    path('create/', CreateIssue.as_view(), name='createissue'),
+    path('edit/issuedetail/<int:pk>', IssueDetail.as_view(), name='issuedetail'),
+    path('edit/<int:pk>/', EditIssue.as_view(), name='editissue'),
+    path('delete/<int:pk>/', DeleteIssue.as_view(), name='deleteissue'),
+
 ]
