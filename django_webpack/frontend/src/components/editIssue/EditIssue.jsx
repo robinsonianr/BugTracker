@@ -18,9 +18,19 @@ export default function EditIssue() {
     issue_type: "",
   });
   const [formData, updateFormData] = useState({ initialFormData });
+  const token = localStorage.getItem("access_token");
+
+  function parseJwt(token) {
+    if (!token) {
+      return;
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
 
   useEffect(() => {
-    axiosInstance.get("edit/issuedetail/" + id).then((res) => {
+    axiosInstance.get("edit/issuedetail/" + id + "/").then((res) => {
       updateFormData({
         ...formData,
         ["title"]: res.data.title,
@@ -43,19 +53,17 @@ export default function EditIssue() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
 
     axiosInstance.put("edit/" + id + "/", {
       title: formData.title,
       description: formData.description,
-      created_by: 1,
+      created_by: parseJwt(token).user_id,
       priority: formData.priority,
       issue_type: formData.issue_type,
     });
     navigate("/issues", { replace: true });
     window.location.reload();
   };
-
   return (
     <div className="editIssue">
       <div className="header">
@@ -65,7 +73,7 @@ export default function EditIssue() {
       </div>
 
       <div className="editForm">
-        <form onSubmit={handleSubmit}>
+        <form>
           {/*onSubmit={handleAdd}*/}
           <div className="formInput">
             <label>Title</label>
@@ -138,7 +146,7 @@ export default function EditIssue() {
               onChange={handleChange}
             />
           </div> */}
-          <button type="submit" className="btn">
+          <button type="submit" className="btn" onClick={handleSubmit}>
             Edit
           </button>
         </form>

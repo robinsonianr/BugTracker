@@ -14,6 +14,15 @@ const axiosInstance = axios.create({
   },
 });
 
+axiosInstance.interceptors.request.use((config) => {
+  if (localStorage.getItem("access_token")) {
+    // or get it from localStorage
+    config.headers["Authorization"] =
+      "JWT " + localStorage.getItem("access_token");
+  }
+  return config;
+});
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;

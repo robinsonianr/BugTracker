@@ -7,6 +7,17 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../axios";
 
 export default function NewIssue() {
+  const token = localStorage.getItem("access_token");
+
+  function parseJwt(token) {
+    if (!token) {
+      return;
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
+
   const initialFormData = Object.freeze({
     title: "",
     description: "",
@@ -41,7 +52,7 @@ export default function NewIssue() {
         description: formData.description,
         priority: formData.priority,
         issue_type: formData.issue_type,
-        created_by: 1,
+        created_by: parseJwt(token).user_id,
       })
       .then((res) => {
         console.log(res);
