@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { Link, useNavigate } from "react-router-dom";
+
 import axiosInstance from "../../axios";
 
 const columns = [
@@ -39,26 +38,7 @@ const columns = [
 ];
 
 export default function DataTable() {
-  const [data, setData] = useState([]);
   const navigate = useNavigate();
-  // const { id } = useParams();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      let list = [];
-      try {
-        const querySnapshot = await getDocs(collection(db, "Issues"));
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          list.push({ id: doc.id, ...doc.data() });
-        });
-        setData(list);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
 
   const handleDel = (id) => {
     axiosInstance
@@ -73,15 +53,6 @@ export default function DataTable() {
       .then(function () {
         window.location.reload();
       });
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "Issues", id));
-      setData(data.filter((item) => item.id !== id));
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const actionColumn = [
@@ -118,6 +89,7 @@ export default function DataTable() {
       .then((data) => data.json())
       .then((data) => setTableData(data));
   }, []);
+
   return (
     <div className="datatable">
       <div className="new">

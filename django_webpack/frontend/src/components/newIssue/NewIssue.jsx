@@ -1,8 +1,7 @@
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import "./newIssue.scss";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { db } from "../../firebase";
+
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../axios";
 
@@ -24,9 +23,8 @@ export default function NewIssue() {
     priority: "",
     issue_type: "",
   });
-  const [formData, setFormData] = useState({ initialFormData });
 
-  const [data, setData] = useState({});
+  const [formData, setFormData] = useState({ initialFormData });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -34,13 +32,6 @@ export default function NewIssue() {
     const value = e.target.value;
 
     setFormData({ ...formData, [id]: value });
-  };
-
-  const handleInput = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-
-    setData({ ...data, [id]: value });
   };
 
   const handleSubmit = (e) => {
@@ -59,18 +50,6 @@ export default function NewIssue() {
         console.log(res.data);
         navigate(-1);
       });
-  };
-
-  const handleAdd = async (e) => {
-    const uid = JSON.parse(localStorage.getItem("user")).uid;
-    e.preventDefault();
-    var timestamp = Timestamp.fromDate(new Date());
-    const resp = await addDoc(collection(db, "Issues"), {
-      ...data,
-      date_added: timestamp.toDate().toLocaleString(),
-      userKey: uid,
-    });
-    navigate(-1);
   };
 
   return (
@@ -151,9 +130,11 @@ export default function NewIssue() {
               onChange={handleChange}
             />
           </div> */}
-          <button type="submit" className="btn">
-            Submit
-          </button>
+          <div className="but">
+            <button type="submit" className="btn">
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -40,6 +40,7 @@
             align-items: center;
             color: #888;
         }
+
         .title{
             font-size: 16px;
             font-weight: bold;
@@ -47,9 +48,13 @@
 
         .counter{
             font-size: 36px;
-                
+            
         }
 
+        .users {
+            border-bottom: 2px solid #888;
+            cursor: pointer;
+        }
         .icon{
             font-size: 36px;
         }

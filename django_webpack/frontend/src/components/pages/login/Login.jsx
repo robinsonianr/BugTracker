@@ -1,6 +1,4 @@
 import { useContext, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase";
 import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,8 +7,7 @@ import { Typography } from "@mui/material";
 
 export default function Login() {
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const { dispatch } = useContext(AuthContext);
@@ -20,7 +17,6 @@ export default function Login() {
   });
 
   const [formData, updateFormData] = useState(initialFormData);
-  const history = useNavigate();
 
   const handleChange = (e) => {
     const id = e.target.id;
@@ -48,22 +44,7 @@ export default function Login() {
           "JWT " + localStorage.getItem("access_token");
         const user = localStorage.getItem("access_token");
         dispatch({ type: "LOGIN", payload: user });
-        history("/", { replace: true });
-      })
-      .catch((error) => {
-        setError(true);
-      });
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        dispatch({ type: "LOGIN", payload: user });
-        navigate("/");
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         setError(true);
