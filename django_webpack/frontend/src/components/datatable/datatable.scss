@@ -1,0 +1,88 @@
+.datatable{
+    padding: 20px;
+    height: 600px;
+
+    .new{
+        flex:1;
+        display: flex;
+        padding: 10px;
+        align-items: center;
+        .left{
+            flex: 1;
+            color: #888;
+           
+
+
+        }
+        .right{
+            color: rgb(6, 75, 35);
+            border: 1px solid rgb(6, 75, 35);
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+
+
+    .cellWithIssue{
+       padding: 5px;
+       border-radius: 5px;
+       
+       &.feature, .Feature {
+           background-color: rgba(0, 128, 0, 0.05);
+           color: green;
+       }
+
+        &.bug, .Bug {
+            background-color: rgba(255, 0, 0, 0.05);
+            color: crimson;
+        }
+    }
+
+    .cellWithPriority{
+        padding: 5px;
+        border-radius: 5px;
+
+        &.critical, .Critical {
+                background-color: rgba(24, 24, 24, 0.05);
+                color: black;
+            }
+        &.high, .High {
+            background-color: rgba(255, 0, 0, 0.05);
+                color: crimson;
+        }
+        &.medium, .Medium {
+            background-color: rgba(255, 217, 0, 0.05);
+            color: goldenrod;
+        }
+
+        &.low, .Low {
+            background-color: rgba(0, 128, 0, 0.05);
+            color: green;
+        }
+
+        
+        }
+
+                .cellAction {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+        
+                    .editButton {
+                        padding: 2px 5px;
+                        border-radius: 5px;
+                        color: rgb(6, 59, 42);
+                        border: 1px solid rgb(6, 59, 42);
+                        cursor: pointer;
+                    }
+        
+                    .deleteButton {
+                        padding: 2px 5px;
+                        border-radius: 5px;
+                        color: rgb(90, 15, 15);
+                        border: 1px solid rgb(90, 15, 15);
+                        cursor: pointer;
+                    }
+    }
+}

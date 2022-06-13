@@ -1,0 +1,105 @@
+.sidebar {
+    border: 0.5px solid rgb(235, 234, 234);
+    min-height: 100vh;
+
+    
+
+
+    .header {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .icon {
+                    color: #F0CF0C;
+                }
+
+            .logo {
+                font-size: 20px;
+                font-weight: bold;
+                color: #F0CF0C;
+            }
+        
+        }
+
+
+    hr {
+        top: 0;
+        border: 0.5px solid rgb(235, 234, 234);
+        
+    }
+
+    .content {
+        flex: 1;
+        padding-left: 10px;
+   
+        ul{
+            margin: 15px;
+            padding: 0;
+
+            li{
+                display: flex;
+                align-items: center;
+                padding: 15px;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: rgb(255, 250, 224);
+                }
+
+                .icon {
+                    color: #F0CF0C;
+                }
+
+                span {
+
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #888;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .bottom{
+        padding-left: 10px;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        position: relative;
+
+       
+        
+        ul {
+            position: absolute;
+                bottom: 0;
+                margin: 15px;
+                padding: 0;
+                li {
+                                  
+                    display: flex;
+                    align-items: center;
+                    padding: 15px;
+                    cursor: pointer;
+        
+                    &:hover {
+                        background-color: rgb(255, 250, 224);
+                    }
+        
+                    .icon {
+                        color: #F0CF0C;
+                    }
+        
+                    span {
+                       
+                        font-size: 20px;
+                        font-weight: 400;
+                        color: #888;
+                        margin-left: 10px;
+                    }
+                }
+            }
+    }
+}
+

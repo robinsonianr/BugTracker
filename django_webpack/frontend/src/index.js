@@ -1,16 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-
-const appDiv = document.getElementById('app');
+import App from "./App";
+import React from "react";
+var ReactDOM = require("react-dom");
+import { AuthContextProvider } from "./components/context/AuthContext";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-	appDiv
+  <React.StrictMode>
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+  </React.StrictMode>,
+  document.getElementById("app")
 );
-
-if (module.hot) {
-	module.hot.accept();
-}

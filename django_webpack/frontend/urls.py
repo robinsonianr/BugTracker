@@ -1,7 +1,13 @@
 from django.urls import path
-import frontend.views as views
+from .views import index
 
 # All urls will point to same HTML template because it is SPA application
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', index),
+    path('create', index),
+    path('issues', index),
+    path('login', index),
+    path('register', index),
+    path('edit/<int:pk>', index),
+    path('users', index),
 ]
