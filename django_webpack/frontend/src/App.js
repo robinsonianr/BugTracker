@@ -1,38 +1,91 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import CreateIssue from "./components/pages/createIssues/CreateIssue";
 import Dashboard from "./components/pages/dashboard/Dashboard";
 import Issues from "./components/pages/issues/Issues";
-import { render } from "react-dom";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   BrowserRouter,
+  Navigate,
 } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
+import Login from "./components/pages/login/Login";
+import { AuthContext } from "./components/context/AuthContext";
+import Register from "./components/pages/register/Register";
+
+import EditPage from "./components/pages/editPage/EditPage";
+import Users from "./components/pages/users/Users";
 
 export default function App() {
+  const { currentUser } = useContext(AuthContext);
+
+  const RequireAuth = ({ children }) => {
+    return currentUser ? children : <Navigate to="/login" />;
+  };
+  // console.log(currentUser);
+
   return (
+    // <div className="App">
+    //   <BrowserRouter>
+    //     <Routes>
+    //       <Route path="/login" element={<Login />} />
+    //       <Route path="/" element={<Dashboard />} />
+    //       <Route path="/create" element={<CreateIssue />} />
+    //       <Route path="/issues" element={<Issues />} />
+    //       <Route path="/edit/:id" element={<EditPage />} />
+    //       <Route path="/register" element={<Register />} />
+    //     </Routes>
+    //   </BrowserRouter>
+    // </div>
+
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/create-issue" element={<CreateIssue />} />
-          <Route path="/issues" element={<Issues />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/users"
+            element={
+              <RequireAuth>
+                <Users />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <RequireAuth>
+                <EditPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <RequireAuth>
+                <CreateIssue />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/issues"
+            element={
+              <RequireAuth>
+                <Issues />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
-
-// 			<div className='App'>
-// 				<HomePage />
-// 				{/* <header className='App-header'>
-// 						<img src={djangologo} className='django-logo' alt='django' />
-// 						<img src={reactlogo} className='App-logo' alt='react' />
-// 					</header> */}
-// 			</div>
-
-const appDiv = document.getElementById("app");
-render(<App />, appDiv);

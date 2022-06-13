@@ -52,8 +52,8 @@
                     color: #F0CF0C;
                 }
 
-                a {
-                    text-decoration: none;
+                span {
+
                     font-size: 20px;
                     font-weight: 400;
                     color: #888;
@@ -65,7 +65,7 @@
 
     .bottom{
         padding-left: 10px;
-        min-height: calc(100vh - 250px);
+        min-height: calc(100vh - 200px);
         display: flex;
         position: relative;
 
