@@ -15,6 +15,7 @@ import { AuthContext } from "./components/context/AuthContext";
 import Register from "./components/pages/register/Register";
 
 import EditPage from "./components/pages/editPage/EditPage";
+import Users from "./components/pages/users/Users";
 
 export default function App() {
   const { currentUser } = useContext(AuthContext);
@@ -43,6 +44,14 @@ export default function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/users"
+            element={
+              <RequireAuth>
+                <Users />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/edit/:id"
             element={

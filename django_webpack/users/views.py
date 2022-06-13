@@ -1,10 +1,11 @@
 from rest_framework_simplejwt.views import TokenObtainPairView  # type:ignore
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken  # type:ignore
 from rest_framework.permissions import AllowAny
+from .models import NewUser
 
 
 class CustomUserCreate(APIView):
@@ -32,3 +33,9 @@ class BlacklistTokenUpdateView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserList(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    queryset = NewUser.objects.all()
+    serializer_class = UserSerializer

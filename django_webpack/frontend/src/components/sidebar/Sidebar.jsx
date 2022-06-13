@@ -55,7 +55,9 @@ export default function Sidebar() {
         <ul>
           <li>
             <PersonOutlineIcon className="icon" />
-            <span>Users</span>
+            <Link to={"/users"} style={{ textDecoration: "none" }}>
+              <span>Users</span>
+            </Link>
           </li>
           <li>
             <LogoutIcon className="icon" />
