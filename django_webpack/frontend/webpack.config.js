@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: ["./src/index.js"],
@@ -9,12 +8,6 @@ module.exports = {
     filename: "[name].js",
     publicPath: "/static/frontend/",
   },
-  plugins: [
-    new Dotenv({
-      ignoreStub: true,
-      path: "./.env",
-    }),
-  ],
 
   resolve: {
     alias: {
