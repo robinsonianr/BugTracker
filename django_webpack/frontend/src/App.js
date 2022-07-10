@@ -13,7 +13,7 @@ import {
 import Login from "./components/pages/login/Login";
 import { AuthContext } from "./components/context/AuthContext";
 import Register from "./components/pages/register/Register";
-
+import ViewPage from "./components/pages/ViewPage/ViewPage";
 import EditPage from "./components/pages/editPage/EditPage";
 import Users from "./components/pages/users/Users";
 
@@ -52,6 +52,15 @@ export default function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/view/issue/:id"
+            element={
+              <RequireAuth>
+                <ViewPage />
+              </RequireAuth>
+            }
+          />
+
           <Route
             path="/edit/:id"
             element={

@@ -34,7 +34,7 @@ const columns = [
     },
   },
   { field: "date_added", headerName: "Dated added", width: 220 },
-  { field: "created_by", headerName: "Created By", width: 130 },
+  { field: "created_by", headerName: "Created By", width: 90 },
 ];
 
 export default function DataTable() {
@@ -63,6 +63,12 @@ export default function DataTable() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
+            <Link
+              to={`/view/issue/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="viewButton">View</div>
+            </Link>
             <Link
               to={`/edit/${params.row.id}`}
               style={{ textDecoration: "none" }}

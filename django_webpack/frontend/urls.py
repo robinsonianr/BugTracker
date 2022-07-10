@@ -9,5 +9,6 @@ urlpatterns = [
     path('login', index),
     path('register', index),
     path('edit/<int:pk>', index),
+    path('view/issue/<int:pk>', index),
     path('users', index),
 ]
