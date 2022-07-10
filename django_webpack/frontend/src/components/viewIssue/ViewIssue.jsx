@@ -1,4 +1,4 @@
-import "./editIssue.scss";
+import "./viewIssue.scss";
 
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,18 +16,10 @@ export default function EditIssue() {
     description: "",
     priority: "",
     issue_type: "",
+    created_by: "",
+    date_added: "",
   });
   const [formData, updateFormData] = useState({ initialFormData });
-  const token = localStorage.getItem("access_token");
-
-  function parseJwt(token) {
-    if (!token) {
-      return;
-    }
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
-    return JSON.parse(window.atob(base64));
-  }
 
   useEffect(() => {
     axiosInstance.get("view/issuedetail/" + id + "/").then((res) => {
@@ -37,33 +29,13 @@ export default function EditIssue() {
         ["description"]: res.data.description,
         ["priority"]: res.data.priority,
         ["issue_type"]: res.data.issue_type,
+        ["date_added"]: res.data.date_added,
+        ["created_by"]: res.data.created_by,
       });
       console.log(res.data);
     });
   }, [updateFormData]);
 
-  const handleChange = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-    updateFormData({
-      ...formData,
-      [id]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    axiosInstance.put("edit/" + id + "/", {
-      title: formData.title,
-      description: formData.description,
-      created_by: parseJwt(token).user_id,
-      priority: formData.priority,
-      issue_type: formData.issue_type,
-    });
-    navigate("/issues", { replace: true });
-    window.location.reload();
-  };
   return (
     <div className="editIssue">
       <div className="header">
@@ -74,7 +46,6 @@ export default function EditIssue() {
 
       <div className="editForm">
         <form>
-          {/*onSubmit={handleAdd}*/}
           <div className="formInput">
             <label>Title</label>
             <input
@@ -84,8 +55,6 @@ export default function EditIssue() {
               placeholder="Title..."
               className="inp"
               value={formData.title}
-              // onChange={handleInput}
-              onChange={handleChange}
             />
           </div>
           <div className="formInput">
@@ -96,59 +65,55 @@ export default function EditIssue() {
               className="inpDesc"
               placeholder="Description..."
               value={formData.description}
-              //onChange={handleInput}
-              onChange={handleChange}
             />
           </div>
           <div className="formInput">
             <label>Priority</label>
-            <select
-              name="priorities"
+            <input
+              name="priorites"
               id="priority"
+              type="text"
+              placeholder="Priority"
               className="inp"
               value={formData.priority}
-              //onChange={handleInput}
-              onChange={handleChange}
-            >
-              <optgroup>
-                <option value="default"> </option>
-                <option value="critical">Critical</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-              </optgroup>
-            </select>
+            />
           </div>
+
           <div className="formInput">
             <label>Issue Type</label>
-            <select
+            <input
               name="issueTypes"
-              id="issue_type"
+              id="issue_types"
+              type="text"
+              placeholder="Issue Type"
               className="inp"
               value={formData.issue_type}
-              //onChange={handleInput}
-              onChange={handleChange}
-            >
-              <optgroup>
-                <option value="defualt"> </option>
-                <option value="bug">Bug</option>
-                <option value="feature">Feature</option>
-              </optgroup>
-            </select>
+            />
           </div>
-          {/* <div className="formInput">
-            <label>Created By</label>
+
+          <div className="formInput">
+            <label>Date Created</label>
             <input
+              name="dateCreated"
+              id="date_added"
+              type="text"
+              placeholder="date added"
+              className="inp"
+              value={formData.date_added}
+            />
+          </div>
+
+          <div className="formInput">
+            <label>Created By User</label>
+            <input
+              name="createdBy"
               id="created_by"
               type="text"
+              placeholder="Created By"
               className="inp"
-              //onChange={handleInput}
-              onChange={handleChange}
+              value={formData.created_by}
             />
-          </div> */}
-          <button type="submit" className="btn" onClick={handleSubmit}>
-            Edit
-          </button>
+          </div>
         </form>
       </div>
     </div>
